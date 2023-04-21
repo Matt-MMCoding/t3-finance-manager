@@ -20,7 +20,7 @@ model Payment {
     dueDate            DateTime @default(now())
     recurring          Boolean  @default(false)
     recurringFrequency String   @default("weekly")
-    isIcoming          Boolean
+    isIncoming         Boolean
     userId             String
 
     @@index([userId])

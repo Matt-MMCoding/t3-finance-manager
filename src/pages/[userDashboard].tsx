@@ -6,6 +6,24 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 
+const UserDashboardFeed = (props: { userId: string }) => {
+  const { data, isLoading } = api.userPayments.getPaymentsByUserId.useQuery({
+    userId: props.userId,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!data || data.length === 0) return <div>Nothing to display</div>;
+
+  return (
+    <div>
+      {data?.map((payment, idx) => (
+        <div key={idx}>{payment.payment.name}</div>
+      ))}
+    </div>
+  );
+};
+
 const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
   const { data } = api.userDashboard.getUserByUserId.useQuery({
     userId,
@@ -18,6 +36,7 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
       </Head>
       <div>Dashboard</div>
       <div>{data?.id}</div>
+      <UserDashboardFeed userId={userId} />
     </>
   );
 };
