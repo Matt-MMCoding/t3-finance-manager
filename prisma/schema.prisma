@@ -6,12 +6,22 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Payment {
+    id                 String   @id @default(cuid())
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+    name               String
+    amount             Float
+    dueDate            DateTime @default(now())
+    recurring          Boolean  @default(false)
+    recurringFrequency String   @default("weekly")
+    isIcoming          Boolean
+    userId             String
+
+    @@index([userId])
 }
