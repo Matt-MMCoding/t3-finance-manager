@@ -2,7 +2,11 @@ import { clerkClient } from "@clerk/nextjs/server";
 import type { Payment } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { filterUserForClient } from "~/server/utils/filterUserForClient";
 
 const addUserDataToPayments = async (payments: Payment[]) => {
@@ -42,4 +46,32 @@ export const userPaymentRouter = createTRPCRouter({
         })
         .then(addUserDataToPayments)
     ),
+
+  createPayment: privateProcedure
+    .input(
+      z.object({
+        name: z.string().min(1).max(250),
+        amount: z.number(),
+        dueDate: z.date(),
+        recurring: z.boolean(),
+        recurringFrequency: z.string(),
+        isIncoming: z.boolean(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.userId;
+
+      const payment = await ctx.prisma.payment.create({
+        data: {
+          userId,
+          name: input.name,
+          amount: input.amount,
+          dueDate: input.dueDate,
+          recurring: input.recurring,
+          recurringFrequency: input.recurringFrequency,
+          isIncoming: input.isIncoming,
+        },
+      });
+      return payment;
+    }),
 });
