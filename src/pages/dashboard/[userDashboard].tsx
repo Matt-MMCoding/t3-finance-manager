@@ -18,7 +18,7 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
       <Head>
         <title>User Dashboard</title>
       </Head>
-      <main className="flex w-full flex-col items-center">
+      <div className="flex w-full flex-col items-center">
         <div className="mt-4 flex w-full items-center md:w-6/12">
           <form className="w-full">
             <label htmlFor="voice-search" className="sr-only">
@@ -91,7 +91,7 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
         </div>
         <UserDashboardFeed userId={userId} />
         <CreatePaymentModal onClose={handleModalClose} visible={modalOpen} />
-      </main>
+      </div>
     </>
   );
 };

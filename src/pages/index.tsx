@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         ) : (
           <SignOutButton>Sign out</SignOutButton>
         )}
-        {user && <Link href={`/${user.id}`}>Dashboard</Link>}
+        {user && <Link href={`/dashboard/${user.id}`}>Dashboard</Link>}
       </main>
     </>
   );
