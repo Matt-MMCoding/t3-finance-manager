@@ -1,16 +1,36 @@
 import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import { useState } from "react";
 import type { FC } from "react";
 import { NavLink } from "../UI/NavLink";
 
+import { CiMenuKebab, CiLogout } from "react-icons/ci";
+import { AiOutlineHome, AiOutlineInfoCircle } from "react-icons/ai";
+import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+
 const MainNav: FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   const { user } = useUser();
   const { signOut } = useClerk();
 
   if (!user) return <div>404 - User not found.</div>;
 
   return (
-    <aside className="flex h-screen flex-col justify-between overflow-hidden bg-stone-800 p-8">
+    <aside
+      className={`relative flex h-screen flex-col justify-between overflow-hidden bg-stone-800 p-8 transition-all ${
+        isOpen ? "w-full" : "w-32"
+      }`}
+    >
+      <button
+        className="text-pink absolute right-2 top-2"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <CiMenuKebab
+          size={24}
+          className={`${!isOpen ? "rotate-90" : "rotate-0"}`}
+        />
+      </button>
       {/* User info / settings */}
       <div className="flex items-center">
         <Image
@@ -20,20 +40,32 @@ const MainNav: FC = () => {
           height={46}
           className="rounded-full"
         />
-        <div className="ml-2 flex flex-col">
-          <p className="font-bold">{user.fullName}</p>
-          <p className="text-xs">{user.emailAddresses[0]?.emailAddress}</p>
-        </div>
+        {isOpen && (
+          <div className="ml-2 flex flex-col">
+            <p className="font-bold">{user.fullName}</p>
+            <p className="text-xs">{user.emailAddresses[0]?.emailAddress}</p>
+          </div>
+        )}
       </div>
 
       {/* Nav links */}
       <nav>
         <ul>
           <li>
-            <NavLink href="/">Home</NavLink>
+            <NavLink href="/">
+              <span>
+                <AiOutlineHome size={isOpen ? 20 : 28} />
+              </span>
+              {isOpen && "Home"}
+            </NavLink>
           </li>
           <li>
-            <NavLink href="/payment">Payment</NavLink>
+            <NavLink href="/payment">
+              <span>
+                <MdOutlineAccountBalanceWallet size={isOpen ? 20 : 28} />
+              </span>
+              {isOpen && "Payment"}
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -42,12 +74,18 @@ const MainNav: FC = () => {
       <ul>
         <li>
           <NavLink href="/help" target="_blank">
-            Help Center
+            <span>
+              <AiOutlineInfoCircle size={isOpen ? 20 : 28} />
+            </span>
+            {isOpen && "Help Center"}
           </NavLink>
         </li>
         <li>
           <NavLink href="" onClick={() => void signOut()}>
-            Sign Out
+            <span>
+              <CiLogout size={isOpen ? 20 : 28} />
+            </span>
+            {isOpen && "Sign Out"}
           </NavLink>
         </li>
       </ul>
