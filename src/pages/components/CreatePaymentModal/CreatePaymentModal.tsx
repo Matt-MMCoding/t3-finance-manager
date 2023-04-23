@@ -27,22 +27,21 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
 
   const ctx = api.useContext();
 
-  const { mutate, isLoading: isCreatingPayment } =
-    api.userPayments.createPayment.useMutation({
-      // Refetch data on success
-      onSuccess: () => {
-        onClose();
-        void ctx.userPayments.getPaymentsByUserId.invalidate();
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors.content;
+  const { mutate } = api.userPayments.createPayment.useMutation({
+    // Refetch data on success
+    onSuccess: () => {
+      onClose();
+      void ctx.userPayments.getPaymentsByUserId.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
 
-        if (errorMessage && errorMessage[0]) {
-          alert(errorMessage[0]);
-          console.error(errorMessage);
-        }
-      },
-    });
+      if (errorMessage && errorMessage[0]) {
+        alert(errorMessage[0]);
+        console.error(errorMessage);
+      }
+    },
+  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const formattedAmount = parseFloat(data.paymentAmount);
