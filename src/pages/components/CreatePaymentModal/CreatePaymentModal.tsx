@@ -3,53 +3,37 @@ import type { FC } from "react";
 import { api } from "~/utils/api";
 import Modal from "../Modal/Modal";
 import type { ICreatePaymentModalProps } from "./types";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   paymentName: string;
-  paymentAmount: number;
+  paymentAmount: string;
   // paymentDue: Date;
   paymentIsRecurring: boolean;
   paymentFrequency: string;
   paymentIsIncoming: boolean;
 };
 
+// TODO Tidy this up and handle form correctly
+
 const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
   visible,
   onClose,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
-  const [paymentName, setPaymentName] = useState("");
-  const [paymentAmount, setPaymentAmount] = useState(0);
   const [paymentDue, setPaymentDue] = useState("2023-04-27T18:44:02.819Z");
-  const [paymentRecurring, setPaymentRecurring] = useState(false);
-  const [paymentFreq, setPaymentFreq] = useState("");
-  const [isIncoming, setIsIncoming] = useState(false);
 
-  // const onSubmit = (data: Inputs) => console.log(data);
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-
-    // const payDate = new Date(paymentDue);
-
-    // mutate({
-    //   name: data.paymentName,
-    //   amount: data.paymentAmount,
-    //   dueDate: payDate,
-    //   recurring: data.paymentIsRecurring,
-    //   recurringFrequency: data.paymentFrequency,
-    //   isIncoming: data.paymentIsIncoming,
-    // });
-  };
+  const ctx = api.useContext();
 
   const { mutate, isLoading: isCreatingPayment } =
     api.userPayments.createPayment.useMutation({
+      // Refetch data on success
+      onSuccess: () => {
+        onClose();
+        void ctx.userPayments.getPaymentsByUserId.invalidate();
+      },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors.content;
 
@@ -60,8 +44,24 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
       },
     });
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const formattedAmount = parseFloat(data.paymentAmount);
+    const payDate = new Date(paymentDue);
+
+    mutate({
+      name: data.paymentName,
+      amount: formattedAmount,
+      dueDate: payDate,
+      recurring: data.paymentIsRecurring,
+      recurringFrequency: data.paymentFrequency,
+      isIncoming: data.paymentIsIncoming,
+    });
+  };
+
   return (
     <Modal onClose={onClose} visible={visible}>
+      {/* Find a solution to this error - https://react-hook-form.com/ts/ */}
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6 grid gap-6 md:grid-cols-2">
           <div>
@@ -77,8 +77,10 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
           <div>
             <input
               type="number"
-              value={paymentAmount}
-              onChange={(e) => setPaymentAmount(e.target.valueAsNumber)}
+              step=".01"
+              // value={paymentAmount}
+              {...register("paymentAmount")}
+              // onChange={(e) => setPaymentAmount(e.target.valueAsNumber)}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             />
           </div>
@@ -95,8 +97,9 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
             <input
               type="checkbox"
               id="recurring"
-              checked={paymentRecurring}
-              onChange={() => setPaymentRecurring((prev) => !prev)}
+              // checked={paymentRecurring}
+              // onChange={() => setPaymentRecurring((prev) => !prev)}
+              {...register("paymentIsRecurring")}
               className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
             <label
@@ -109,8 +112,9 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
           <div>
             <input
               type="text"
-              value={paymentFreq}
-              onChange={(e) => setPaymentFreq(e.target.value)}
+              // value={paymentFreq}
+              // onChange={(e) => setPaymentFreq(e.target.value)}
+              {...register("paymentFrequency")}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="recurring freq"
             />
@@ -119,8 +123,9 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
             <input
               type="checkbox"
               id="income"
-              checked={isIncoming}
-              onChange={() => setIsIncoming((prev) => !prev)}
+              // checked={isIncoming}
+              // onChange={() => setIsIncoming((prev) => !prev)}
+              {...register("paymentIsIncoming")}
               className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
             <label

@@ -13,12 +13,12 @@ const UserDashboardFeed: FC<IUserDashboardFeedProps> = ({ userId }) => {
   if (isLoading) return <div>Loading...</div>;
 
   const incomingPayments = data
-    .filter(({ payment }) => payment.isIncoming)
-    .map(({ payment }) => payment);
+    .filter(({ isIncoming }) => isIncoming)
+    .map((payment) => payment);
 
   const outgoingPayments = data
-    .filter(({ payment }) => !payment.isIncoming)
-    .map(({ payment }) => payment);
+    .filter(({ isIncoming }) => !isIncoming)
+    .map((payment) => payment);
 
   return (
     <>
@@ -52,20 +52,6 @@ const UserDashboardFeed: FC<IUserDashboardFeedProps> = ({ userId }) => {
       </div>
     </>
   );
-
-  //   if (isLoading) return <div>Loading...</div>;
-
-  //   if (!data || data.length === 0) return <div>Nothing to display</div>;
-
-  //   return (
-  //     <div>
-  // {data?.map((payment, idx) => (
-  //   <div key={idx}>
-  //     {payment.payment.name} - {payment.payment.amount}
-  //   </div>
-  // ))}
-  //     </div>
-  //   );
 };
 
 export default UserDashboardFeed;

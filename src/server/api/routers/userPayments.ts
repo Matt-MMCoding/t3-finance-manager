@@ -38,14 +38,13 @@ const addUserDataToPayments = async (payments: Payment[]) => {
 export const userPaymentRouter = createTRPCRouter({
   getPaymentsByUserId: publicProcedure
     .input(z.object({ userId: z.string() }))
-    .query(({ ctx, input }) =>
-      ctx.prisma.payment
-        .findMany({
-          where: { userId: input.userId },
-          orderBy: [{ createdAt: "desc" }],
-        })
-        .then(addUserDataToPayments)
-    ),
+    .query(async ({ ctx, input }) => {
+      const payments = await ctx.prisma.payment.findMany({
+        where: { userId: input.userId },
+        orderBy: [{ createdAt: "desc" }],
+      });
+      return payments;
+    }),
 
   createPayment: privateProcedure
     .input(
