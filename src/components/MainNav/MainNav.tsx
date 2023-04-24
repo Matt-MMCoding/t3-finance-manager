@@ -60,11 +60,11 @@ const MainNav: FC = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink href="/payment">
+            <NavLink href={`/dashboard/${user.id}`}>
               <span>
                 <MdOutlineAccountBalanceWallet size={isOpen ? 20 : 28} />
               </span>
-              {isOpen && "Payment"}
+              {isOpen && "Dashboard"}
             </NavLink>
           </li>
         </ul>

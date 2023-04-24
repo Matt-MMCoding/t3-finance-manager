@@ -3,7 +3,7 @@ import type { INavLinkProps } from "./types";
 import { useRouter } from "next/router";
 
 const NavLink = ({ href, target, onClick, children }: INavLinkProps) => {
-  const { pathname } = useRouter();
+  const router = useRouter();
 
   return (
     <Link
@@ -11,7 +11,7 @@ const NavLink = ({ href, target, onClick, children }: INavLinkProps) => {
       target={target}
       onClick={onClick}
       className={`flex h-full w-full items-center gap-2 rounded-md p-4 leading-none transition-colors hover:bg-stone-900 ${
-        pathname === href ? "bg-stone-900 font-bold" : "bg-transparent"
+        router.asPath === href ? "bg-stone-900 font-bold" : "bg-transparent"
       }`}
     >
       {children}
