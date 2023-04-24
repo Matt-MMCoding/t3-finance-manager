@@ -9,7 +9,8 @@
 ### Payment:
 
 - [ ] Status field (Due soon | Overdue | Complete) - User can define complete state
-- [ ] Due date should not be required field
+- [x] Due date should not be required field
+- [ ] Handle date formatting between FE and BE
 
 ### Payments View:
 

@@ -45,12 +45,11 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const formattedAmount = parseFloat(data.paymentAmount);
-    const payDate = new Date(paymentDue);
 
     mutate({
       name: data.paymentName,
       amount: formattedAmount,
-      dueDate: payDate,
+      dueDate: paymentDue,
       recurring: data.paymentIsRecurring,
       recurringFrequency: data.paymentFrequency,
       isIncoming: data.paymentIsIncoming,

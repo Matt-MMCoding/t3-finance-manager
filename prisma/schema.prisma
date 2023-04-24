@@ -21,6 +21,7 @@ model Payment {
     recurring          Boolean  @default(false)
     recurringFrequency String   @default("weekly")
     isIncoming         Boolean
+    isComplete         Boolean  @default(false)
     userId             String
 
     @@index([userId])
