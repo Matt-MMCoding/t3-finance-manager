@@ -17,8 +17,8 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
       <Head>
         <title>User Dashboard</title>
       </Head>
-      <div className="flex w-full flex-col items-center px-8">
-        <h1 className="text-6xl">User Dashboard</h1>
+      <div className="flex w-full flex-col px-8">
+        <h1 className="text-center text-6xl">User Dashboard</h1>
 
         {/* Daily Breakdown Bar Chart */}
         <div className="w-6/12">
@@ -31,7 +31,29 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
 
         {/* Payments List */}
         <div className="w-6/12">
-          <p className="text-xl font-bold">Payments</p>
+          <div className="flex items-center">
+            <p className="text-xl font-bold">Payments</p>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="ml-2 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-myColor bg-myColor p-1 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-0"
+            >
+              <svg
+                fill="none"
+                className="h-5 w-5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6v12m6-6H6"
+                ></path>
+              </svg>
+            </button>
+          </div>
           <UserDashboardFeed userId={userId} />
         </div>
         <CreatePaymentModal onClose={handleModalClose} visible={modalOpen} />

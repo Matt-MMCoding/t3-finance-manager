@@ -11,7 +11,7 @@ export const userPaymentRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const payments = await ctx.prisma.payment.findMany({
         where: { userId: input.userId },
-        orderBy: [{ createdAt: "desc" }],
+        orderBy: [{ dueDate: "asc" }],
       });
       return payments;
     }),

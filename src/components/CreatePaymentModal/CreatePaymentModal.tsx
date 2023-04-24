@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { FC } from "react";
 import { api } from "~/utils/api";
 import Modal from "../Modal/Modal";
@@ -9,7 +8,7 @@ import type { SubmitHandler } from "react-hook-form";
 type Inputs = {
   paymentName: string;
   paymentAmount: string;
-  // paymentDue: Date;
+  paymentDue: string;
   paymentIsRecurring: boolean;
   paymentFrequency: string;
   paymentIsIncoming: boolean;
@@ -22,8 +21,6 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
   onClose,
 }) => {
   const { register, handleSubmit } = useForm<Inputs>();
-
-  const [paymentDue, setPaymentDue] = useState("2023-04-27T18:44:02.819Z");
 
   const ctx = api.useContext();
 
@@ -49,7 +46,7 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
     mutate({
       name: data.paymentName,
       amount: formattedAmount,
-      dueDate: paymentDue,
+      dueDate: data.paymentDue,
       recurring: data.paymentIsRecurring,
       recurringFrequency: data.paymentFrequency,
       isIncoming: data.paymentIsIncoming,
@@ -82,15 +79,16 @@ const CreatePaymentModal: FC<ICreatePaymentModalProps> = ({
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             />
           </div>
-          {/* <div>
+          <div>
             <input
-              type="datetime-local"
-              value={paymentDue}
-              onChange={(e) => setPaymentDue(e.target.value)}
+              type="date"
+              // value={paymentDue}
+              // onChange={(e) => setPaymentDue(e.target.value)}
+              {...register("paymentDue")}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Payment Due"
             />
-          </div> */}
+          </div>
           <div>
             <input
               type="checkbox"
