@@ -21,36 +21,24 @@ const UserDashboardFeed: FC<IUserDashboardFeedProps> = ({ userId }) => {
     .map((payment) => payment);
 
   return (
-    <>
-      <div className="mt-4 w-full md:w-6/12">
-        <div className="flex w-full flex-col md:flex-row md:flex-wrap md:gap-10">
-          <div className="flex-1">
-            {incomingPayments.map(({ id, name, amount, isIncoming }) => {
-              return (
-                <Payment
-                  key={id}
-                  name={name}
-                  amount={amount}
-                  isIncoming={isIncoming}
-                />
-              );
-            })}
-          </div>
-          <div className="flex-1">
-            {outgoingPayments.map(({ id, name, amount, isIncoming }) => {
-              return (
-                <Payment
-                  key={id}
-                  name={name}
-                  amount={amount}
-                  isIncoming={isIncoming}
-                />
-              );
-            })}
-          </div>
-        </div>
+    <div>
+      <div className="mt-4 flex py-2">
+        <div className="flex-1 text-gray-500">Name</div>
+        <div className="flex-1 text-gray-500">Amount</div>
+        <div className="flex-1 text-gray-500">Due Date</div>
+        <div className="flex-1 text-gray-500">Status</div>
       </div>
-    </>
+      {/* Divider */}
+      <div className="h-1 w-full border-b border-stone-800" />
+
+      <div className="flex flex-col">
+        {data.map(({ name, amount, dueDate }, idx) => (
+          <div key={idx}>
+            <Payment name={name} amount={amount} dueDate={dueDate} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

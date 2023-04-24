@@ -21,7 +21,7 @@ export const userPaymentRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1).max(250),
         amount: z.number(),
-        dueDate: z.date(),
+        dueDate: z.string(),
         recurring: z.boolean(),
         recurringFrequency: z.string(),
         isIncoming: z.boolean(),

@@ -17,7 +17,7 @@ model Payment {
     updatedAt          DateTime @updatedAt
     name               String
     amount             Float
-    dueDate            DateTime @default(now())
+    dueDate            String?
     recurring          Boolean  @default(false)
     recurringFrequency String   @default("weekly")
     isIncoming         Boolean
