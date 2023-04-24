@@ -18,8 +18,7 @@ model Payment {
     name               String
     amount             Float
     dueDate            String?
-    recurring          Boolean  @default(false)
-    recurringFrequency String   @default("weekly")
+    recurringFrequency String?
     isIncoming         Boolean
     isComplete         Boolean  @default(false)
     userId             String

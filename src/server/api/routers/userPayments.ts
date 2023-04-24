@@ -19,10 +19,14 @@ export const userPaymentRouter = createTRPCRouter({
   createPayment: privateProcedure
     .input(
       z.object({
-        name: z.string().min(1).max(250),
+        name: z
+          .string()
+          .min(1)
+          .max(250)
+          .trim()
+          .regex(/^[A-Za-z0-9]+$/i),
         amount: z.number(),
         dueDate: z.string(),
-        recurring: z.boolean(),
         recurringFrequency: z.string(),
         isIncoming: z.boolean(),
       })
@@ -36,7 +40,6 @@ export const userPaymentRouter = createTRPCRouter({
           name: input.name,
           amount: input.amount,
           dueDate: input.dueDate,
-          recurring: input.recurring,
           recurringFrequency: input.recurringFrequency,
           isIncoming: input.isIncoming,
         },

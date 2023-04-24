@@ -1,3 +1,3 @@
-import type { IModalProps } from "../Modal/types";
+import type { IModalProps } from "../ModalWrapper/types";
 
 export type ICreatePaymentModalProps = IModalProps;

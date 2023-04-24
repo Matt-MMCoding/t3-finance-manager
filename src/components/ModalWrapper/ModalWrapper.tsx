@@ -1,7 +1,12 @@
 import type { FC, MouseEvent } from "react";
-import type { IModalProps } from "./types";
+import type { IModalWrapperProps } from "./types";
 
-const Modal: FC<IModalProps> = ({ visible, onClose, children }) => {
+const ModalWrapper: FC<IModalWrapperProps> = ({
+  visible,
+  onClose,
+  title,
+  children,
+}) => {
   if (!visible) return null;
 
   const handleOnClose = (e: MouseEvent<HTMLDivElement>): void => {
@@ -16,9 +21,12 @@ const Modal: FC<IModalProps> = ({ visible, onClose, children }) => {
       onClick={(e) => handleOnClose(e)}
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm"
     >
-      <div className="bg-red-400">{children}</div>
+      <div className="rounded-md bg-stone-900 p-6">
+        <p className="mb-6 text-xl">{title}</p>
+        {children}
+      </div>
     </div>
   );
 };
 
-export default Modal;
+export default ModalWrapper;

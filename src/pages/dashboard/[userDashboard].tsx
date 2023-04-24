@@ -35,7 +35,7 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
             <p className="text-xl font-bold">Payments</p>
             <button
               onClick={() => setModalOpen(true)}
-              className="ml-2 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-myColor bg-myColor p-1 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-0"
+              className="ml-2 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-myColor bg-myColor p-1 text-sm font-medium text-white hover:bg-myColor focus:outline-none focus:ring-0"
             >
               <svg
                 fill="none"
