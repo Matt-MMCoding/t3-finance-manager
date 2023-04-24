@@ -1,3 +1,4 @@
-import type { IModalProps } from "../ModalWrapper/types";
+import type { IModalWrapperProps } from "../ModalWrapper/types";
 
-export type ICreatePaymentModalProps = IModalProps;
+export interface ICreatePaymentModalProps
+  extends Omit<IModalWrapperProps, "title"> {}
