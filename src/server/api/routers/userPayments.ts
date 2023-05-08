@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { FORM_CONSTANT } from "~/constants/form.constants";
 import {
   createTRPCRouter,
   privateProcedure,
@@ -24,7 +25,7 @@ export const userPaymentRouter = createTRPCRouter({
           .min(1)
           .max(250)
           .trim()
-          .regex(/^[A-Za-z0-9]+$/i),
+          .regex(FORM_CONSTANT.PAYMENT_FORM_PATTERN),
         amount: z.number(),
         dueDate: z.string(),
         recurringFrequency: z.string(),

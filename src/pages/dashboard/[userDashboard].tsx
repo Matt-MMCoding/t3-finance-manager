@@ -5,7 +5,7 @@ import SuperJSON from "superjson";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { useState } from "react";
-import CreatePaymentModal from "~/components/CreatePaymentModal/CreatePaymentModal";
+import PaymentModal from "~/components/PaymentModal/PaymentModal";
 import UserDashboardFeed from "~/components/UserDashboardFeed/UserDashboardFeed";
 
 const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
@@ -56,7 +56,7 @@ const UserDashboard: NextPage<{ userId: string }> = ({ userId }) => {
           </div>
           <UserDashboardFeed userId={userId} />
         </div>
-        <CreatePaymentModal onClose={handleModalClose} visible={modalOpen} />
+        <PaymentModal onClose={handleModalClose} visible={modalOpen} />
       </div>
     </>
   );
