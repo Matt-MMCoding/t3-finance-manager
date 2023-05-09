@@ -10,8 +10,8 @@ const NavLink = ({ href, target, onClick, children }: INavLinkProps) => {
       href={href}
       target={target}
       onClick={onClick}
-      className={`flex h-full w-full items-center gap-2 rounded-md p-4 leading-none transition-colors hover:bg-stone-900 ${
-        router.asPath === href ? "bg-stone-900 font-bold" : "bg-transparent"
+      className={`w-max transition-colors hover:text-gray-400 ${
+        router.asPath === href ? "text-purple-500" : "text-white"
       }`}
     >
       {children}

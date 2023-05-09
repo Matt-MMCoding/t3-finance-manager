@@ -7,14 +7,8 @@ import { MainNav } from "~/components/MainNav";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
-      <div className="flex">
-        <div className="flex-2">
-          <MainNav />
-        </div>
-        <div className="flex-1">
-          <Component {...pageProps} />
-        </div>
-      </div>
+      <MainNav />
+      <Component {...pageProps} />
     </ClerkProvider>
   );
 };
